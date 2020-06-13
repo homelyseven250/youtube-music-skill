@@ -1,13 +1,12 @@
 
 skillMetadata:
   sections:
-    - name: Options << Name of section
+    - name: Playing settings
       fields:
-        - name: internal_python_variable_name
-          type: text
-          label: Setting Friendly Display Name
-          value: ""
-          placeholder: demo prompt in the input box
+        - name: autoplay
+          type: checkbox
+          label: Autoplay songs after last ing playlist
+          value: "True"
     - name: Login << Name of another section
       fields:
         - type: label
