@@ -2,6 +2,9 @@ from mycroft import MycroftSkill, intent_handler
 
 from mycroft.skills.common_play_skill import CommonPlaySkill, CPSMatchLevel
 
+
+from mycroft.util.parse import match_one
+
 import urllib.request
 from bs4 import BeautifulSoup
 from pytube import YouTube
@@ -30,25 +33,33 @@ class YoutubeMusic(MycroftSkill):
         html = response.read()
         soup = BeautifulSoup(html, 'html.parser')
         urls = []
+        names = []
         for vid in soup.findAll(attrs={'class':'yt-uix-tile-link'}):
             urls.append('https://www.youtube.com' + vid['href'])
-        endurl=urls[0]
-
-        yt = YouTube(endurl)
-        #download opus stream and convert to mp3
-        yt.streams.filter(audio_codec="opus").first().download(filename=str(vid['href']))
-        pydub.AudioSegment.from_file("./"+str(vid['href'])+".webm").export("./"+str(vid['href'])+".mp3", format="mp3")   
-
         
-        #return song url
-       
-        return (phrase, CPSMatchLevel.TITLE, {"track": endurl})
+        for title in soup.findAll(attrs={'class':'video-title'}):
+            names.append(title.text)
+        
+        track_dict = {}
+
+        for x in len(urls):
+            track_dict[names[x]] = urls[x]
+        
+        # Get match and confidence
+        match, confidence = match_one(phrase, track_dict)
+        # If the confidence is high enough return a match
+        if confidence > 0.5:
+            return (match, CPSMatchLevel.TITLE, {"track": match})
+        # Otherwise return None
+        else:
+            return None
 
     def CPS_start(self, phrase, data):
         """ Starts playback.
             Called by the playback control skill to start playback if the
             skill is selected (has the best match level)
         """
+        self.log.info(data)
         url = data['track']
         self.audioservice.play(url)
 

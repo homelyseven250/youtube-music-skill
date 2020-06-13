@@ -1,7 +1,0 @@
-dependencies:
-  python:
-    - pytube
-    - os
-    - urllib
-    - bs4
-    - pydub
