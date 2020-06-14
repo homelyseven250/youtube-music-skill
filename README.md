@@ -7,6 +7,8 @@ Plays music from youtube music
 ## Examples
 * "Play"
 * "Play the playlist"
+* "Play Ariana Grande"
+* "Play Marshmello"
 
 ## Credits
 @homlyseven250
