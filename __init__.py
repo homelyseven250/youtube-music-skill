@@ -1,7 +1,9 @@
 from __future__ import unicode_literals
+import youtube_dl
+
 from mycroft import MycroftSkill, intent_handler
 
-from mycroft.skills.common_play_skill import CommonPlaySkill, CPSMatchLevel
+from mycroft.skills.common_play_skill import *
 
 
 from mycroft.util.parse import match_one
@@ -11,7 +13,7 @@ from bs4 import BeautifulSoup
 
 
 
-import youtube_dl
+
 
 class YoutubeMusic(MycroftSkill):
     def __init__(self):
@@ -27,26 +29,25 @@ class YoutubeMusic(MycroftSkill):
                      or None if no match was found.
         """
         # Get match and confidence
-
-
-        textToSearch = f'{phrase} clean'
-        query = urllib.parse.quote(textToSearch)
-        url = "https://www.youtube.com/results?search_query=" + query
-        response = urllib.request.urlopen(url)
-        html = response.read()
-        soup = BeautifulSoup(html, 'html.parser')
         urls = []
-        names = []
-        for vid in soup.findAll(attrs={'class':'yt-uix-tile-link'}):
-            urls.append('https://www.youtube.com' + vid['href'])
-        
-        for title in soup.findAll(attrs={'class':'video-title'}):
-            names.append(title.text)
-        
+        titles = []
         track_dict = {}
+        self.log.info(phrase)
+        responce = urllib.request.urlopen('https://www.youtube.com/results?search_query='+phrase)
 
-        for x in len(urls):
-            track_dict[names[x]] = urls[x]
+        soup = BeautifulSoup(responce)    
+        divs = soup.find_all("div", { "class" : "yt-lockup-content"})
+
+
+        for i in divs:
+            href= i.find('a', href=True)
+            urls.append("https://www.youtube.com"+href['href'])
+            titles.append(href.text)
+
+        self.log.info(urls)
+        self.log.info(titles)
+        for x in range(0, len(urls)):
+            track_dict[title[x]] = urls[x]
         
         # Get match and confidence
         match, confidence = match_one(phrase, track_dict)

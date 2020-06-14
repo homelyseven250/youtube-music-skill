@@ -1,4 +1,2 @@
-__pycache__/
-*.qmlc
-settings.json
-
+__pycache__
+.vscode
