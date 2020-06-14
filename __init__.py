@@ -32,8 +32,8 @@ class YoutubeMusic(MycroftSkill):
         urls = []
         titles = []
         track_dict = {}
-        self.log.info(phrase.data.get("phrase", ""))
-        responce = urllib.request.urlopen('https://www.youtube.com/results?search_query='+phrase.data.get("phrase", ""))
+        self.log.info(phrase.data.get())
+        responce = urllib.request.urlopen('https://www.youtube.com/results?search_query='+phrase.data.get())
 
         soup = BeautifulSoup(responce)    
         divs = soup.find_all("div", { "class" : "yt-lockup-content"})
