@@ -32,7 +32,7 @@ class YoutubeMusic(MycroftSkill):
         urls = []
         titles = []
         track_dict = {}
-        self.log.info(phrase["phrase"])
+        self.log.info(phrase.data.get("phrase", ""))
         responce = urllib.request.urlopen('https://www.youtube.com/results?search_query='+phrase)
 
         soup = BeautifulSoup(responce)    
