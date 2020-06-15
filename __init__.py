@@ -15,7 +15,7 @@ from bs4 import BeautifulSoup
 
 
 
-class YoutubeMusic(MycroftSkill):
+class YoutubeMusic(CommonPlaySkill):
     def __init__(self):
         MycroftSkill.__init__(self)
 
@@ -33,7 +33,7 @@ class YoutubeMusic(MycroftSkill):
         titles = []
         track_dict = {}
         self.log.info(phrase)
-        response = urllib.request.urlopen('https://www.youtube.com/results?search_query='+phrase)
+        response = urllib.request.urlopen('https://www.youtube.com/results?search_query='+phrase.replace(" ", "%20"))
 
         soup = BeautifulSoup(response)    
         divs = soup.find_all("div", { "class" : "yt-lockup-content"})
@@ -44,10 +44,8 @@ class YoutubeMusic(MycroftSkill):
             urls.append("https://www.youtube.com"+href['href'])
             titles.append(href.text)
 
-        self.log.info(urls)
-        self.log.info(titles)
         for x in range(0, len(urls)):
-            track_dict[title[x]] = urls[x]
+            track_dict[titles[x]] = urls[x]
         
         # Get match and confidence
         match, confidence = match_one(phrase, track_dict)
