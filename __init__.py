@@ -19,7 +19,7 @@ class YoutubeMusic(MycroftSkill):
     def __init__(self):
         MycroftSkill.__init__(self)
 
-    @intent_handler('play.intent')
+    
     def CPS_match_query_phrase(self, phrase):
         """ This method responds wether the skill can play the input phrase.
             The method is invoked by the PlayBackControlSkill.
