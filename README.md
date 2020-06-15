@@ -5,8 +5,7 @@ Plays music from youtube music.
 Plays music from youtube music
 
 ## Examples
-* "Play"
-* "Play the playlist"
+* "Play the playlist Happy Pop Hits"
 * "Play Ariana Grande"
 * "Play Marshmello"
 
@@ -16,5 +15,5 @@ Plays music from youtube music
 ## Category
 **Music & Audio**
 
-## Tags
-
+## Notes
+* Currently not working an not all features built.
